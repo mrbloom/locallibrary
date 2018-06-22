@@ -43,6 +43,9 @@ class Book(models.Model):
         """
         return reverse('book-detail', args=[str(self.id)])
     
+    def get_absolute_author_url(self):
+         return reverse('author-detail', args=[str(self.author.id)])
+    
     def display_genre(self):
         """
         Creates a string for the Genre. This is required to display genre in Admin.
@@ -107,6 +110,9 @@ class Author(models.Model):
         String for representing the Model object.
         """
         return '%s, %s' % (self.last_name, self.first_name)
+    
+    class Meta:
+        ordering = ['last_name']
 
 class Language(models.Model):
     """
