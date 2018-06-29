@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 def index(request):
     """
@@ -51,3 +53,23 @@ class AuthorDetailView(generic.DetailView):
     #     # Добавляем новую переменную к контексту и иниуиализируем ее некоторым значением
     #     context['authors_books'] = model.author_set()  '12345' #Book.objects.filter(author=self)
     #     return context               
+
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user. 
+    """
+    model = BookInstance
+    template_name ='bookinstance_list_borrowed_user.html'
+    paginate_by = 2
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class BorrowedBooksListView(PermissionRequiredMixin,generic.ListView):
+    permission_required = 'catalog.can_mark_returned'
+    model = BookInstance
+    template_name = 'borrowed_books.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')

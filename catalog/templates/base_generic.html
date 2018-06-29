@@ -26,6 +26,26 @@
           <li><a href="{% url 'books' %}">All books</a></li>
           <li><a href="{% url 'authors' %}">All authors</a></li>
       </ul>
+      <ul>
+          {% if user.is_authenticated %}
+            <li>User: {{ user.get_username }}</li>
+            <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+          {% else %}
+            {{ user.group }}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+          {% endif %} 
+      </ul>
+      <ul>
+        <li>
+            {{ user.groups.all.0 }}
+            <!-- {% for group in user.groups.all %}
+                {{ group }}
+            {% endfor %}  -->
+        </li>
+            
+        <li><a href="{% url 'borrowed' %}">All Borrowed</a></li>
+      </ul>
      {% endblock %}
       </div>
       <div class="col-sm-10 ">

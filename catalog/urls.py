@@ -10,5 +10,6 @@ urlpatterns = [
     re_path(r'^books/pubdate/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)$', views.BookDetailView.as_view(), name='book-detail'),
     re_path(r'^authors/$', views.AuthorListView.as_view(), name='authors'),
     re_path(r'^author/(?P<pk>\d+)$', views.AuthorDetailView.as_view(), name='author-detail'),
-    re_path(r'^accounts/', include('django.contrib.auth.urls')),
+    re_path(r'^mybooks/$', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),    
+    re_path(r'^borrowed/$', views.BorrowedBooksListView.as_view(), name='borrowed'), 
 ]

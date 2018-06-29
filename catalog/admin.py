@@ -3,7 +3,7 @@ from .models import Author, Genre, Book, BookInstance, Language
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ( 'display_book', 'id', 'status', 'due_back')    
+    list_display = ( 'display_book', 'id', 'status', 'borrower', 'due_back')    
     list_filter = ('status', 'due_back')
 
     fieldsets = (
@@ -11,7 +11,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('book','imprint','id')
             }),
         ('Доступность', {
-            'fields': ('status','due_back')
+            'fields': ('status','due_back','borrower')
         }),
     )
 
